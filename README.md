@@ -78,7 +78,7 @@ The VPPV framework consists of two main components:
 
 #### 2. Deployment
 - **dVRK Integration** (`VPPV/Deployment/dVRK/`)
-  - Scripts for deploying game-based traaining tasks on real-world dVRK
+  - Scripts for deploying game-based training tasks on real-world dVRK
   - Configuration files for robot setup
   - Run `python super_player.py --task ${task_name}` to excecute VPPV
 
