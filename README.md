@@ -1,4 +1,20 @@
-# [Surgical embodied intelligence for generalized task autonomy in laparoscopic robot-assisted surgery](https://www.science.org/doi/10.1126/scirobotics.adt3093) [Science Robotics 2025]
+## Surgical embodied intelligence for generalized task autonomy in laparoscopic robot-assisted surgery
+
+### [[Project Website]](https://med-air.github.io/SurRoL/)
+
+**Science Robotics'25**: Surgical embodied intelligence for generalized task autonomy in laparoscopic robot-assisted surgery  [[Paper](https://www.science.org/doi/10.1126/scirobotics.adt3093)] [[Code](https://github.com/med-air/SurRoL/tree/SR-VPPV)]
+
+**arXiv'24**: Efficient Physically-based Simulation of Soft Bodies in Embodied Environment for Surgical Robot  [[Paper](https://arxiv.org/abs/2402.01181)] [[Code](https://github.com/med-air/SurRoL/tree/Dev)]
+
+**ICRA'24**: Multi-objective Cross-task Learning via Goal-conditioned GPT-based Decision Transformers for Surgical Robot Task Automation [[Paper](https://arxiv.org/abs/2405.18757)] [[Code](https://github.com/med-air/SurRoL/blob/Dev/rl/README.md)]
+
+**IROS'23**: Value-Informed Skill Chaining for Policy Learning of Long-Horizon Tasks with Surgical Robot [[Paper](https://arxiv.org/abs/2307.16503)] [[Code](https://github.com/med-air/ViSkill)]
+
+**RA-L'23**: Human-in-the-loop Embodied Intelligence with Interactive Simulation Environment for Surgical Robot Learning [[Paper](https://arxiv.org/abs/2301.00452)] [[Code](https://github.com/med-air/SurRoL/tree/SurRoL-v2)]
+
+**ICRA'23**: Demonstration-Guided Reinforcement Learning with Efficient Exploration for Task Automation of Surgical Robot [[Paper](https://arxiv.org/abs/2302.09772)] [[Code](https://github.com/med-air/DEX)]
+
+**IROS'21**: SurRoL: An Open-source RL Centered and dVRK Compatible Platform for Surgical Robot Learning [[Paper](https://arxiv.org/abs/2108.13035)] [[Code](https://github.com/med-air/SurRoL/tree/main)]
 
 <p align="center">
    <img src="README.assets/img/overview.png" width="80%" height="80%" alt="SurRoL"/>
@@ -17,7 +33,7 @@
 **System Requirements:** Ubuntu 20.04 with Python 3.7
 
 
-## Project Structure
+## Code Structure
 
 ```
 
@@ -42,18 +58,44 @@
 
 ```
 
-## Codes Navigation for Related Projects
-1. **arXiv'24**: Efficient Physically-based Simulation of Soft Bodies in Embodied Environment for Surgical Robot  [[Paper](https://arxiv.org/abs/2402.01181)] [[Code](https://github.com/med-air/SurRoL/tree/Dev)]
+## Detailed Usage
+### VPPV
+The VPPV framework consists of two main components:
+#### 1. Training
+- **Data Generation** (`VPPV/Training/data_generation/`)
+  - Environments for collecting training data
+  - Use `python data_generation.py --env ${task_name}` to create datasets for perceptual regressor training
+  
+- **State Regression** (`VPPV/Training/state_regress/`)
+  - Training scripts for perceptual regressor models
+  - Run `python train.py` to train the network
 
-2. **ICRA'24**: Multi-objective Cross-task Learning via Goal-conditioned GPT-based Decision Transformers for Surgical Robot Task Automation [[Paper](https://arxiv.org/abs/2405.18757)] [[Code](https://github.com/med-air/SurRoL/blob/Dev/rl/README.md)]
+- **Policy Learning** (`VPPV/Training/policy_learning/`)
+  - RL training environments with pretrained perceptual regressor
+  - Execute `python3 rl/train.py task=${task_name} agent=ddpg use_wb=True` to train control policies
 
-3. **IROS'23**: Value-Informed Skill Chaining for Policy Learning of Long-Horizon Tasks with Surgical Robot [[Paper](https://arxiv.org/abs/2307.16503)] [[Code](https://github.com/med-air/ViSkill)]
+#### 2. Deployment
+- **dVRK Integration** (`VPPV/Deployment/dVRK/`)
+  - Scripts for deploying game-based traaining tasks on real-world dVRK
+  - Configuration files for robot setup
+  - Run `python super_player.py --task ${task_name}` to excecute VPPV
 
-4. **RA-L'23**: Human-in-the-loop Embodied Intelligence with Interactive Simulation Environment for Surgical Robot Learning [[Paper](https://arxiv.org/abs/2301.00452)] [[Code](https://github.com/med-air/SurRoL/tree/SurRoL-v2)]
+- **Sentire System** (`VPPV/Deployment/Sentire/`)
+  - Code for ex vivo and in vivo experiments
+  - Run `python super_player.py --task ${task_name}` to excecute VPPV
 
-5. **ICRA'23**: Demonstration-Guided Reinforcement Learning with Efficient Exploration for Task Automation of Surgical Robot [[Paper](https://arxiv.org/abs/2302.09772)] [[Code](https://github.com/med-air/DEX)]
 
-6. **IROS'21**: SurRoL: An Open-source RL Centered and dVRK Compatible Platform for Surgical Robot Learning [[Paper](https://arxiv.org/abs/2108.13035)] [[Code](https://github.com/med-air/SurRoL/tree/main)]
+### Haptic Guidance
+Implementation of intelligent haptic guidance system:
+- Located in `Haptic_guidance/`
+- Includes haptic feedback algorithms
+- Run `python tests/main.py` to start the demo
+
+### Data-driven Scene Simulation
+Tools for realistic surgical scene simulation:
+- Found in `Data_driven_scene_simulation/`
+- Data-driven scene reconstruction and simulation
+- Run `python python gs_interaction.py` for simulation
 
 
 
