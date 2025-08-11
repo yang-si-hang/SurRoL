@@ -14,6 +14,8 @@
 
 **ICRA'23**: Demonstration-Guided Reinforcement Learning with Efficient Exploration for Task Automation of Surgical Robot [[Paper](https://arxiv.org/abs/2302.09772)] [[Code](https://github.com/med-air/DEX)]
 
+**ISMR'22**: Integrating Artificial Intelligence and Augmented Reality in Robotic Surgery: An Initial dVRK Study Using a Surgical Education Scenario [[Paper](https://arxiv.org/abs/2201.00383)]
+
 **IROS'21**: SurRoL: An Open-source RL Centered and dVRK Compatible Platform for Surgical Robot Learning [[Paper](https://arxiv.org/abs/2108.13035)] [[Code](https://github.com/med-air/SurRoL/tree/main)]
 
 <p align="center">
