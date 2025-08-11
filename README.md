@@ -1,62 +1,77 @@
-# SurRoL: An Open-source Reinforcement Learning Centered and dVRK Compatible Platform for Surgical Robot Learning
-
-### [[Project Website]](https://med-air.github.io/SurRoL/)
-
-IEEE RA-L'23 [Human-in-the-loop Embodied Intelligence with Interactive Simulation Environment for Surgical Robot Learning](https://arxiv.org/abs/2301.00452) <br>
-ICRA'23 [Demonstration-Guided Reinforcement Learning with Efficient Exploration for Task Automation of Surgical Robot](https://arxiv.org/abs/2302.09772) <br>
-ISMR'22 [Integrating artificial intelligence and augmented reality in robotic surgery: An initial dVRK study using a surgical education scenario](https://arxiv.org/abs/2201.00383) <br>
-IROS'21 [SurRoL: An open-source reinforcement learning centered and dVRK compatible platform for surgical robot learning](https://arxiv.org/abs/2108.13035)
-
+# [Surgical embodied intelligence for generalized task autonomy in laparoscopic robot-assisted surgery](https://www.science.org/doi/10.1126/scirobotics.adt3093) [Science Robotics 2025]
 
 <p align="center">
-   <img src="resources/img/surrol-overview.png" alt="SurRoL"/>
+   <img src="README.assets/img/overview.png" width="80%" height="80%" alt="SurRoL"/>
 </p>
+
 
 ## Features
 
 - [dVRK](https://github.com/jhu-dvrk/sawIntuitiveResearchKit/wiki) compatible [robots](./surrol/robots).
-- [Gym](https://github.com/openai/gym) style [API](./surrol/gym) for reinforcement learning.
-- Ten surgical-related [tasks](./surrol/tasks).
-- Various object [assets](./surrol/assets).
-- Based on [PyBullet]((https://github.com/bulletphysics/bullet3)) for physics simulation.
+- [OpenAI Gym](https://github.com/openai/gym) style [API](./surrol/gym) for reinforcement learning.
+- Rich collection of [assets](./surrol/assets) and task environments.
+- Based on [PyBullet](https://github.com/bulletphysics/bullet3) and [Taichi](https://www.taichi-lang.org/) for physics simulation.
+- Allow human interaction with [Touch Haptic Device](https://www.3dsystems.com/haptics-devices/touch) and real-world [dVRK](https://github.com/jhu-dvrk/sawIntuitiveResearchKit/wiki) robots.
+- Zero-shot sim-to-real transfer capabilities
 
-## Installation
+**System Requirements:** Ubuntu 20.04 with Python 3.7
 
-The project is built on Ubuntu with Python 3.7,
-[PyBullet](https://github.com/bulletphysics/bullet3),
-[Gym 0.15.6](https://github.com/openai/gym/releases/tag/0.15.6),
-and evaluated with [Baselines](https://github.com/openai/baselines),
-[TensorFlow 1.14](https://www.tensorflow.org/install/pip).
 
-### Prepare environment
+## Project Structure
 
-1. Create a conda virtual environment and activate it.
-
-    ```shell
-    conda create -n surrol python=3.7 -y
-    conda activate surrol
-    ```
-
-2. Install gym (slightly modified), tensorflow-gpu==1.14, baselines (modified).
-
-### Install SurRoL
-
-```shell
-git clone https://github.com/med-air/SurRoL.git
-cd SurRoL
-pip install -e .
 ```
 
-## Get started
+|- VPPV                          # surgical task automation framework
+   |- Training                   # simulator training
+      |- data_generation            # enviroment for generating the data to train perceptual regressor
+      |- state_regress              # code for training perceptual regressor
+      |- policy_learning            # enviroment for training the RL policy
 
-The robot control API follows [dVRK](https://github.com/jhu-dvrk/dvrk-ros/tree/master/dvrk_python/src/dvrk)
-(before "crtk"), which is compatible with the real-world dVRK robots.
+   |- Deployment                 # VPPV deployment in the real world
+      |- dVRK                    # code of VPPV deployment for game-based training tasks
+      |- Sentire                 # code of VPPV deployment for ex vivo and in vivo experiments
 
-You may have a look at the jupyter notebooks in [tests](./tests).
-There are some test files for [PSM](./tests/test_psm.ipynb) and [ECM](./tests/test_ecm.ipynb),
-that contains the basic procedures to start the environment, load the robot, and test the kinematics.
+|- Benchmark                     # benchmark for policy learning
+    |- state_based                   # enviroment and implementation for state based methods
+    |- vision_based                  # enviroment and implementation for vision based methods
 
-We also provide some [run files](./run) to evaluate the environments using baselines.
+|- Haptic_guidance               #  enviroment and implementation for intelligent haptic guidance
+
+|- Data_driven_scene_simulation  #  enviroment and implementation for data driven surgical scene simulation
+
+
+```
+
+## Codes Navigation for Related Projects
+1. **arXiv'24**: Efficient Physically-based Simulation of Soft Bodies in Embodied Environment for Surgical Robot  [[Paper](https://arxiv.org/abs/2402.01181)] [[Code](https://github.com/med-air/SurRoL/tree/Dev)]
+
+2. **ICRA'24**: Multi-objective Cross-task Learning via Goal-conditioned GPT-based Decision Transformers for Surgical Robot Task Automation [[Paper](https://arxiv.org/abs/2405.18757)] [[Code](https://github.com/med-air/SurRoL/blob/Dev/rl/README.md)]
+
+3. **IROS'23**: Value-Informed Skill Chaining for Policy Learning of Long-Horizon Tasks with Surgical Robot [[Paper](https://arxiv.org/abs/2307.16503)] [[Code](https://github.com/med-air/ViSkill)]
+
+4. **RA-L'23**: Human-in-the-loop Embodied Intelligence with Interactive Simulation Environment for Surgical Robot Learning [[Paper](https://arxiv.org/abs/2301.00452)] [[Code](https://github.com/med-air/SurRoL/tree/SurRoL-v2)]
+
+5. **ICRA'23**: Demonstration-Guided Reinforcement Learning with Efficient Exploration for Task Automation of Surgical Robot [[Paper](https://arxiv.org/abs/2302.09772)] [[Code](https://github.com/med-air/DEX)]
+
+6. **IROS'21**: SurRoL: An Open-source RL Centered and dVRK Compatible Platform for Surgical Robot Learning [[Paper](https://arxiv.org/abs/2108.13035)] [[Code](https://github.com/med-air/SurRoL/tree/main)]
+
+
+
+## Other Useful Links
+
+### 1. Hardware and software setup for da Vinci Research Kit (dVRK).
+
+This project was developed on ROS Noetic with dVRK 2.1.
+
+Follow [this guide](https://github.com/jhu-dvrk/sawIntuitiveResearchKit/wiki/CatkinBuild) to build and check all prerequisites listed [here](https://github.com/jhu-dvrk/sawIntuitiveResearchKit/wiki/FirstSteps#documentation).
+
+More information about dVRK can be found at [dVRK documentation](https://dvrk.readthedocs.io/2.3.0/index.html) and [wiki page](https://github.com/jhu-dvrk/sawIntuitiveResearchKit/wiki).
+
+### 2. Calibration.
+
+Follow [this guide](https://github.com/YonghaoLong/EndoscopeCalibration) to calibrate the stereo endoscopic camera. 
+
+Follow [this guide](https://github.com/Cartucho/dvrk_calib_hand_eye) for hand eye calibration of dVRK.
 
 ## Citation
 
@@ -70,10 +85,22 @@ If you find the paper or the code helpful to your research, please cite the proj
   year={2021},
   organization={IEEE}
 }
+
+@article{long2025surgical,
+  title={Surgical embodied intelligence for generalized task autonomy in laparoscopic robot-assisted surgery},
+  author={Long, Yonghao and Lin, Anran and Kwok, Derek Hang Chun and Zhang, Lin and Yang, Zhenya and Shi, Kejian and Song, Lei and Fu, Jiawei and Lin, Hongbin and Wei, Wang and others},
+  journal={Science Robotics},
+  volume={10},
+  number={104},
+  pages={eadt3093},
+  year={2025},
+  publisher={American Association for the Advancement of Science}
+}
 ```
 ## License
 
-SurRoL is released under the [MIT license](LICENSE).
+The code is released under the [MIT license](LICENSE).
+
 
 ## Acknowledgement
 
@@ -83,7 +110,3 @@ The code is built with the reference of [dVRK](https://github.com/jhu-dvrk/sawIn
 [RLBench](https://github.com/stepjam/RLBench),
 [Decentralized-MultiArm](https://github.com/columbia-ai-robotics/decentralized-multiarm),
 [Ravens](https://github.com/google-research/ravens), etc.
-
-
-## Contact
-For any questions, please feel free to email <a href="mailto:qidou@cuhk.edu.hk">qidou@cuhk.edu.hk</a>
