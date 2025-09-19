@@ -70,3 +70,6 @@ class DDPGBC(DDPG):
         #return - (a1 - a2).pow(2).sum(dim=1,keepdim=True) / self.action_dim
         self.p_dist = np.inf if self.p_dist == -1 else self.p_dist
         return - torch.norm(a1 - a2, p=self.p_dist, dim=1, keepdim=True).pow(2) / self.dima 
+    
+    def sync_networks(self):
+        super().sync_networks()

@@ -1,7 +1,7 @@
 import os
 import time
 import trimesh
-import pymeshlab
+# import pymeshlab
 import numpy as np
 import pybullet as p
 import MPM.mpm3d as mpm3d

@@ -96,4 +96,5 @@ class BaseAgent(nn.Module):
         return torch.as_tensor(array).to(self.device)
 
     def sync_networks(self):
-        sync_networks(self)
+        pass
+        # sync_networks(self)

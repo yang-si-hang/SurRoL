@@ -72,7 +72,7 @@ if __name__ == '__main__':
             "pandas",
             "imageio",
             "imageio-ffmpeg",
-            "opencv-python",
+            # "opencv-python",
             "roboticstoolbox-python",
             "sympy",
             "panda3d==1.10.11",

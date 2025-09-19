@@ -126,6 +126,18 @@ register(
     max_episode_steps=100,
 )
 
+register(
+    id="NeedlePickSoft-v0",
+    entry_point='surrol.tasks.needle_pick_soft:NeedlePick',
+    max_episode_steps=50,
+)
+
+register(
+    id="PsmEnvSoft-v0",
+    entry_point='surrol.tasks.psm_env_soft_ext:PsmEnv',
+    max_episode_steps=50,
+)
+
 
 register(
     id='PegTransferDataRL-v0',

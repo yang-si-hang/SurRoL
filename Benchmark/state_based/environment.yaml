@@ -1,0 +1,43 @@
+# environment.yml
+
+# 1. 环境的名称
+name: surrol-env
+
+# 2. 包的下载渠道 (conda-forge 通常包含最新最全的包)
+channels:
+  - conda-forge
+  - defaults
+
+# 3. 依赖包列表
+dependencies:
+  # --- 核心环境 ---
+  - python=3.8  # 建议指定一个明确的 Python 版本
+  
+  # --- 构建工具 ---
+  - "pip<24.1"
+  - "setuptools<60"
+
+  # --- 核心依赖 (版本语法已转换为 Conda 格式) ---
+  - gym=0.22.0
+  - "numpy>=1.21.1"
+  - panda3d=1.10.11
+  - transforms=4.5.1
+  - packaging=21.3
+  - pybullet=3.09
+  - scipy
+  - pandas
+  - imageio
+  - imageio-ffmpeg
+  - opencv  # pip 的 opencv-python 在 conda-forge 中通常叫 opencv
+  - roboticstoolbox-python
+  - sympy
+  - trimesh
+  - kivymd
+  - hydra-core
+  - colorlog=6.8.0
+  - wandb=0.9.1
+  - termcolor=2.4.0
+  - mpi4py=3.1.5
+  - taichi==1.6.0
+  - tqdm
+  - pymeshlab

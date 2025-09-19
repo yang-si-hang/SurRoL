@@ -77,7 +77,7 @@ def init_buffer(cfg, buffer, agent, normalize=True):
     for epsd in range(cfg.num_demo):
         episode_cache.store_obs(demo_obs[epsd][0])
         for i in range(buffer.T):
-            print(buffer.T)
+            # print(buffer.T)
             episode_cache.store_transition(
                 obs=demo_obs[epsd][i+1],
                 action=demo_acs[epsd][i],

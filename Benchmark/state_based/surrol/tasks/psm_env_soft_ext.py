@@ -15,7 +15,7 @@ import time
 import pandas as pd
 import MPM.mpm3d as mpm3d
 
-
+# pymeshlab 需要Qt5.15, 现在的环境不满足
 
 def goal_distance(goal_a, goal_b):
     assert goal_a.shape == goal_b.shape
@@ -381,6 +381,7 @@ class PsmEnv(SurRoLGoalEnv):
 
     def _sample_goal(self) -> np.ndarray:
         """Samples a new goal and returns it."""
+        # return np.array([0.5, 0.5, 0.5])  # 测试用途
         raise NotImplementedError
 
     def _sample_goal_callback(self):

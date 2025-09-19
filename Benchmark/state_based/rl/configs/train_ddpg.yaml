@@ -1,0 +1,56 @@
+defaults:
+  - agent: ddpgbc
+  - _self_
+
+# File path
+cwd: ${hydra:runtime.output_dir}
+
+# Training params
+# n_train_steps: 100_000_001
+# n_eval: 10000
+# n_save: 5000
+# n_log: 100000
+n_train_steps: 10000001  # 20W epsisodes
+# 改用 interval 参数，直接定义间隔的 episode 数量，要乘 workers
+eval_interval: 50  # 每 200 个 episodes 评估一次
+save_interval: 100  # 每 400 个 episodes 保存一次
+log_interval: 25    # 每 40 个 episodes 记录一次日志
+# n_seed_steps: ${agent.n_seed_steps}   # 正式训练前的随机探索步数
+n_seed_steps: 4000000   # 8W episodes
+# n_seed_steps: 50000
+
+replay_buffer_capacity: 100_000
+batch_size: 128
+device: cuda:0
+seed: 1
+task: NeedlePickRL-v0
+postfix: null
+dont_save: False
+n_eval_episodes: 20
+clean_model_dir: True
+resume: False   # 假设从 wandb 网站上复制的 Run ID 是 '3a1b2c3d'
+ckpt_episode: latest   # 用于恢复训练
+
+num_demo: 200
+use_demo: False
+# demo_path: /home/ubuntu/ysh/Code/SurRoL/Benchmark/state_based/surrol/data/demo/data_NeedlePickRL-v0_random_200.npz
+demo_path: null
+
+use_wb: True
+project_name: my-surrol
+entity_name: d202080216-huazhong-university-of-science-and-technology
+n_logged_samples: 2   # 每次记录的样本数量
+
+# MPI
+mpi: {rank: null, is_chef: null, num_workers: null}
+
+# Working space
+hydra:
+  run:
+    dir: ./output/${task}/${agent.name}/s${seed}/${now:%Y-%m-%d_%H-%M-%S}
+  sweep:
+    dir: ./output/${task}/${agent.name}/${now:%Y-%m-%d_%H-%M-%S}
+    subdir: ${seed}
+  sweeper:
+    params:
+      seed: 1,2,3,4,5

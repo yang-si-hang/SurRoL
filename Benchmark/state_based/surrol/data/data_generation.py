@@ -93,7 +93,7 @@ def goToGoal(env, last_obs):
     obs, success = last_obs, False
 
     while time_step < min(env._max_episode_steps, args.steps):
-        action = env.get_oracle_action(obs)
+        action = env.get_oracle_action(obs)     # 环境内部定义的oracle策略
         if isinstance(action, tuple):
             action = action[0]
         if args.video:

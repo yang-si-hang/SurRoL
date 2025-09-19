@@ -1,0 +1,49 @@
+# 继承 agent=ddpgbc 与默认结构
+defaults:
+  - agent: ddpgbc
+  - _self_
+
+# File path
+cwd: ${hydra:runtime.output_dir}
+
+# 都表示总数, 而不是总步数
+n_train_steps: 10_000_001
+# n_eval: 10000           # 评估频率调高（=更稀疏）；或直接 50000
+# n_save: 5000            # 减少频繁写盘
+# n_log: 100000           # 更密集日志，便于观察
+eval_interval: 200  # 每 200 个 episodes 评估一次
+save_interval: 400  # 每 400 个 episodes 保存一次
+log_interval: 40    # 每 40 个 episodes 记录一次日志
+n_seed_steps: ${agent.n_seed_steps} 
+
+replay_buffer_capacity: 100_000   # 先减半，观察内存
+batch_size: 128   # update policy时每次采样的batch个episode, 但是每个episode只取一个step
+device: cuda:0
+seed: 1
+task: NeedlePickRL-v0
+postfix: fast
+dont_save: False
+n_eval_episodes: 20      # 表示使用多少个 episode 来评估
+clean_model_dir: True
+ckpt_episode: latest   # 用于恢复训练
+
+num_demo: 200
+use_demo: True
+demo_path: /home/ubuntu/ysh/Code/SurRoL/Benchmark/state_based/surrol/data/demo/data_NeedlePickRL-v0_random_200.npz
+
+use_wb: False          # 先不使用 wandb
+project_name: my-surrol
+entity_name: d202080216-huazhong-university-of-science-and-technology
+n_logged_samples: 2   # 每次记录的样本数量
+
+mpi: {rank: null, is_chef: null, num_workers: null}
+
+hydra:
+  run:
+    dir: ./output/${task}/${agent.name}/s${seed}/${now:%Y-%m-%d_%H-%M-%S}
+  sweep:
+    dir: ../output/${task}/${agent.name}/${now:%Y-%m-%d_%H-%M-%S}
+    subdir: ${seed}
+  sweeper:
+    params:
+      seed: 1,2,3,4,5

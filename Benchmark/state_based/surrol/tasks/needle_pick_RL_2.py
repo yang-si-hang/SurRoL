@@ -145,7 +145,7 @@ class NeedlePickRL(PsmEnv):
 
 
 if __name__ == "__main__":
-    env = NeedlePick(render_mode='human')  # create one process and corresponding env
+    env = NeedlePickRL(render_mode='human')  # create one process and corresponding env
 
     env.test()
     env.close()

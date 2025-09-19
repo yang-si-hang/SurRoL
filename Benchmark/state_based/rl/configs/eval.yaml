@@ -1,16 +1,23 @@
 defaults:
-  - train
+  - train   # 复用 train.yaml 的大部分配置
   - _self_
 
+seed: 1
+task: NeedlePickRL-v0
 postfix: eval_ckpt
 dont_save: False
-n_eval_episodes: 50
-ckpt_dir: ./exp_local/${task}/${agent.name}/d${num_demo}/s${seed}/model
+num_demo: 200
+n_eval_episodes: 20
+demo_path: /home/ubuntu/ysh/Code/SurRoL/Benchmark/state_based/surrol/data/demo/data_NeedlePickRL-v0_random_200.npz
+
+ckpt_dir: /home/ubuntu/ysh/Code/SurRoL/Benchmark/state_based/rl/exp_local_fast/${task}/${agent.name}/d${num_demo}/s${seed}/model
 ckpt_episode: latest
 
-use_wb: True
-project_name: dex
-entity_name: thuang22
+clean_model_dir: False
+
+use_wb: False
+project_name: my-surrol
+entity_name: d202080216-huazhong-university-of-science-and-technology
 
 # MPI
 mpi: {rank: null, is_chef: null, num_workers: null}
@@ -18,4 +25,4 @@ mpi: {rank: null, is_chef: null, num_workers: null}
 # Working space
 hydra:
   run:
-    dir: ./exp_local/${task}/${agent.name}/d${num_demo}/eval/s${seed}
+    dir: ./exp_local_fast/${task}/${agent.name}/d${num_demo}/eval/s${seed}

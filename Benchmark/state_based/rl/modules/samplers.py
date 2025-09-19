@@ -18,6 +18,7 @@ class Sampler:
         self._episode_reset()
 
     def sample_action(self, obs, is_train):
+        # 此处控制是否加噪声
         return self._agent.get_action(obs, noise=is_train)
     
     def sample_episode(self, is_train, render=False, random_act=False):

@@ -4,7 +4,7 @@ import numpy as np
 import torch
 import torch.nn as nn
 
-# from utils.mpi import sync_networks
+from utils.mpi import sync_networks
 
 
 class BaseAgent(nn.Module):
@@ -94,5 +94,5 @@ class BaseAgent(nn.Module):
             return torch.tensor(array, dtype=torch.float32).to(self.device)
         return torch.as_tensor(array).to(self.device)
 
-    # def sync_networks(self):
-    #     sync_networks(self)
+    def sync_networks(self):
+        sync_networks(self)

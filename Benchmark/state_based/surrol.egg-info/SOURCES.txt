@@ -1,5 +1,3 @@
-LICENSE
-README.md
 setup.py
 surrol/const.py
 surrol.egg-info/PKG-INFO

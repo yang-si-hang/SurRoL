@@ -46,6 +46,7 @@ class SurRoLEnv(gym.Env):
         else:
             if cid < 0:
                 self.cid = p.connect(p.DIRECT)
+                p.setPhysicsEngineParameter(enableFileCaching=0)
             else:
                 self.cid = cid
             # See PyBullet Quickstart Guide Synthetic Camera Rendering
@@ -127,6 +128,7 @@ class SurRoLEnv(gym.Env):
         #     self.actions[-1] = np.append(self.actions[-1], [reward])  # only for demo
         return obs, reward, done, info
 
+    # @profile
     def reset(self):
         # reset scene in the corresponding file
         p.resetSimulation()

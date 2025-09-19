@@ -50,16 +50,17 @@ class CheckpointHandler:
         checkpt = torch.load(checkpt_path, map_location=device)
     
         logger.info(f'Loading pre-trained model from {checkpt_path}!')
-        agent.load_state_dict(checkpt['state_dict'])
+        agent.load_state_dict(checkpt['state_dict'])        # 这是 PyTorch 的方法
         agent.g_norm = checkpt['g_norm']
         agent.o_norm = checkpt['o_norm']
 
+        return checkpt
 
 def save_cmd(base_dir):
-  train_cmd = 'python ' + ' '.join([sys.argv[0]] + [pipes.quote(s) for s in sys.argv[1:]])
-  train_cmd += '\n\n'
-  print('\n' + '*' * 80)
-  print('Training command:\n' + train_cmd)
-  print('*' * 80 + '\n')
-  with open(os.path.join(base_dir, "cmd.txt"), "a") as f:
-    f.write(train_cmd)
+    train_cmd = 'python ' + ' '.join([sys.argv[0]] + [pipes.quote(s) for s in sys.argv[1:]])
+    train_cmd += '\n\n'
+    print('\n' + '*' * 80)
+    print('Training command:\n' + train_cmd)
+    print('*' * 80 + '\n')
+    with open(os.path.join(base_dir, "cmd.txt"), "a") as f:
+        f.write(train_cmd)

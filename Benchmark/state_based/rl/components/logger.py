@@ -56,7 +56,7 @@ class WandBLogger:
     """Logs to WandB."""
     N_LOGGED_SAMPLES = 50    # how many examples should be logged in each logging step
 
-    def __init__(self, exp_name, project_name, entity, path, conf, exclude=None):
+    def __init__(self, exp_name, project_name, entity, path, conf, resume=False, exclude=None):
         """
         :param exp_name: full name of experiment in WandB
         :param project_name: name of overall project
@@ -65,24 +65,49 @@ class WandBLogger:
         :param conf: hyperparam config that will get logged to WandB
         :param exclude: (optional) list of (flattened) hyperparam names that should not get logged
         """
+        self.N_LOGGED_SAMPLES = conf.get('n_logged_samples', self.N_LOGGED_SAMPLES)
         if exclude is None: exclude = []
         flat_config = flatten_dict(conf)
         filtered_config = {k: v for k, v in flat_config.items() if (k not in exclude and not inspect.isclass(v))}
-        
+
         # clear dir
         # save_dir = path / 'wandb'
         # save_dir.mkdir(exist_ok=True)
         # shutil.rmtree(f"{save_dir}/")
 
         logger.info("Init wandb")
-        wandb.init(
-            resume=exp_name,
-            project=project_name,
-            config=filtered_config,
-            dir=str(path),
-            entity=entity,
-            notes=conf.notes if 'notes' in conf else ''
-        )
+        # wandb.init(
+        #     resume=exp_name,
+        #     project=project_name,
+        #     config=filtered_config,
+        #     dir=str(path),
+        #     entity=entity,
+        #     notes=conf.notes if 'notes' in conf else ''
+        # )
+        # 准备传递给 wandb.init() 的参数字典
+        wandb_args = {
+            'name': exp_name,
+            'project': project_name,
+            'entity': entity,
+            'config': filtered_config,
+            'dir': str(path),
+            'notes': conf.notes if 'notes' in conf else ''
+        }
+        
+        # --- 核心恢复逻辑 ---
+        if isinstance(resume, str) and resume:
+            # 如果 resume 是一个非空字符串，我们认为它是一个 run_id
+            print(f"W&B: Attempting to resume run with ID: {resume}")
+            wandb_args['id'] = resume
+            wandb_args['resume'] = 'must' # 'must' 确保如果ID不存在，则会报错，防止意外创建新实验
+        else:
+            # 否则，我们开始一次全新的运行
+            print("W&B: Starting a new run.")
+            wandb_args['id'] = wandb.util.generate_id() # 生成一个全新的、唯一的ID
+            wandb_args['resume'] = 'never' # 'never' 确保不会意外地恢复任何东西
+
+        # 使用准备好的参数来初始化 wandb
+        wandb.init(**wandb_args)
 
     def log_scalar_dict(self, d, prefix='', step=None):
         """Logs all entries from a dict of scalars. Optionally can prefix all keys in dict before logging."""

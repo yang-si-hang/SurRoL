@@ -1,3 +1,4 @@
+import surrol.gym
 import gym
 import torch
 import os

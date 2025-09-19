@@ -8,7 +8,7 @@ from torch.utils.data import Dataset
 
 
 
-
+# Hindsight Experience Replay Buffer
 class HerReplayBuffer:
     '''Hindsight Experience Replay, refer to https://arxiv.org/abs/1707.01495 '''
     def __init__(self, env_params, buffer_size, batch_size, sampler, T=None):
@@ -234,7 +234,7 @@ class HER_sampler:
         rollout_batch_size = episode_batch['actions'].shape[0]
         batch_size = batch_size_in_transitions
         
-        # select which rollouts and which timesteps to be used
+        # select which rollouts and which timesteps to be used, 采样batch_size个episode, 每个episode采样一个时间点
         episode_idxs = np.random.randint(0, rollout_batch_size, batch_size)
         t_samples = np.random.randint(T, size=batch_size)
         transitions = {key: episode_batch[key][episode_idxs, t_samples].copy() for key in episode_batch.keys()}
@@ -243,13 +243,13 @@ class HER_sampler:
         her_indexes = np.where(np.random.uniform(size=batch_size) < self.future_p)
         future_offset = np.random.uniform(size=batch_size) * (T - t_samples)
         future_offset = future_offset.astype(int)
-        future_t = (t_samples + 1 + future_offset)[her_indexes]
+        future_t = (t_samples + 1 + future_offset)[her_indexes]     # 表示在t_samples采样点之后future offset个step的goal
         
         # replace go with achieved goal
         future_ag = episode_batch['ag'][episode_idxs[her_indexes], future_t]
         transitions['g'][her_indexes] = future_ag
         
-        # to get the params to re-compute reward
+        # to get the params to re-compute reward, 计算reward时用的是下一个状态的achieved_goal(future_t时刻的状态)
         transitions['r'] = self.reward_func(transitions['ag_next'], transitions['g'], None)
         if len(transitions['r'].shape) == 1:
             transitions['r'] = np.expand_dims(transitions['r'], 1)

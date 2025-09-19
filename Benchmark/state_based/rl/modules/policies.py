@@ -21,7 +21,7 @@ class DeterministicActor(nn.Module):
 
     def forward(self, state):
         a = self.trunk(state)
-        return self.max_action * torch.tanh(a)
+        return self.max_action * torch.tanh(a)  # tanh to bound the action
 
 
 class StochasticActor(nn.Module):
